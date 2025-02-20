@@ -7,6 +7,10 @@
 
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 input, button, textarea {
   border: none;
   outline: none;

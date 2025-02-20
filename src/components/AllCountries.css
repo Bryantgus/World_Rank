@@ -3,30 +3,26 @@
     position: relative;
     top: 50px;
     left: 4%;
-    height: 600px;
+    height: 1000px;
     border: 0.5px solid #282B30;
     background-color: #1B1D1F;
     border-radius: 15px;
     padding: 0px 2%;
     display: grid;
     grid-template-columns: 22% 78%;
-    grid-template-rows: 20% 80%;    
+    grid-template-rows: 12% 88%;   
+    margin-bottom: 100px; 
 }
 
 .headerAllCountries {
+    height: 100px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 20px;
-    padding-bottom: 0px;
     align-items: center;
     grid-column: span 2;
+    
 }
-
-.headerAllCountries span {
-    padding-bottom: 10px;
-}
-
 .leftContainer span {
     padding-bottom: 10px;
     padding-top: 30px;
@@ -50,7 +46,7 @@
 }
 
 #optionsSelect {
-    width: 250px;
+    width: 100%;
     background-color: #1B1D1F;
     border-radius: 10px;
     border: 2px solid #282B30;
@@ -117,19 +113,19 @@
 }
 
 .titlesContainer > span:first-child {
-    margin-right: 70px;
+    width: 14%;
 }
 
 .titlesContainer > span:nth-child(2) {
-    margin-right: 180px;
+    width: 22%;
 }
 
 .titlesContainer > span:nth-child(3) {
-    margin-right: 140px;
+    width: 24%;
 }
 
 .titlesContainer > span:nth-child(4) {
-    margin-right: 120px;
+    width: 20.5%;
 }
 
 .line {
@@ -139,35 +135,74 @@
     margin-top: 20px;
 }
 
-.infoCountryContainer {
-    position: relative;
-    text-align: center;
-    margin-top: 20px;
-    margin-bottom: 100px;
-    
+.contriesContainer {
+    width: 102.5%; 
+    height: 95%;
+    overflow-y: auto;
+    border: 1px solid #ccc; 
+    border: none;
 }
 
-.infoCountryContainer * {
+/* Estilizar la barra de desplazamiento */
+.contriesContainer::-webkit-scrollbar {
+    width: 10px; /* Ancho de la barra de desplazamiento */
+}
+
+/* Color de fondo de la barra */
+.contriesContainer::-webkit-scrollbar-track {
+    background: #404040; 
+    border-radius: 5px;
+}
+
+/* Color y forma del thumb (la parte que se mueve) */
+.contriesContainer::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+}
+
+/* Cambiar color cuando se pasa el mouse */
+.contriesContainer::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.infoCountry {
+    text-align: center;
+    margin-top: 20px;
+    padding-bottom: 30px;
+    display: flex;
+    align-items: center;    
+    cursor: pointer;
+}
+
+.infoCountry * {
     font-size: 14px;
     font-weight: 600;
     left: 0;
-
 }
 
-.infoCountryContainer > div:first-child {
+.infoCountry span {
+    text-align: left;
+}
+
+.infoCountry > div:first-child {
     width: 50px;
     height: 40px;
-    border-radius: 5px;
-    margin-right: 50px;
+    border-radius: 2px;
+    margin-right: 7%;
+    background-size: cover; /* Hace que la imagen se ajuste sin recortarse */
+    background-position: center; /* Centra la imagen en el div */
+    background-repeat: no-repeat; /* Evita repeticiones si la imagen es más pequeña */
 } 
 
-.infoCountryContainer img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 5px;
+.infoCountry > span:nth-child(2) {
+    width: 22.5%;
 }
 
-.infoCountryContainer > span:first-child {
-    margin-left: 1000px;
+.infoCountry > span:nth-child(3) {
+    width: 22%;
 }
+
+.infoCountry > span:nth-child(4) {
+    width: 20%;
+}
+
