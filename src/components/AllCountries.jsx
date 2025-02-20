@@ -43,15 +43,16 @@ export default function AllCountries() {
             Oceania: true
         },
         status: {
-            unMember: true,
-            independent: true
+            unMember: false,
+            independent: false
         }
     });
+    const [filterWord, setFilterWord] = useState("");
     const [countriesFiltered, setCountriesFiltered] = useState([]);
 
     //Obtener datos de la api
     useEffect(() => {
-        fetch("https://restcountries.com/v3.1/all?fields=name,flags,population,area,region")
+        fetch("https://restcountries.com/v3.1/all?fields=name,flags,population,area,region,independent,unMember")
           .then(Response => Response.json())
           .then(data => {
             setCountries(data);
@@ -61,7 +62,7 @@ export default function AllCountries() {
     function updateFilters(data) { 
         if (data === "population" || data === "area" || data === "name") {
             setFilters((prev) => ({ ...prev, sortby: data }));
-        } else if (data[1] === "member" || data[1] === "independent") {
+        } else if (data[1] === "unMember" || data[1] === "independent") {
             setFilters((prev) => ({
                 ...prev,
                 status: {
@@ -82,23 +83,47 @@ export default function AllCountries() {
 
     }
 
+    const filterWordRef = useRef();
+
     useEffect(() => {
+
+        let countriesFilter = countries;
+
+        filterWordRef.current = filterWord;  
+        countriesFilter = countriesFilter.filter((country) => country.name.common.toLowerCase().includes(filterWord.toLowerCase()));
+
         
-        var countriesFilter = countries.filter((country) => 
+        countriesFilter = countriesFilter.filter((country) => 
             filters.region[country.region]
         );
 
+        if (filters.status.unMember) {
+            countriesFilter = countriesFilter.filter((country) => country.unMember);
+        }
+
+        if (filters.status.independent) {
+            countriesFilter = countriesFilter.filter((country) => country.independent);
+        }
+
+        if (filters.sortby === "name") {
+            countriesFilter.sort((a, b) => a.name.common.localeCompare(b.name.common))  
+        } 
+        else if (filters.sortby === "population" || filters.sortby === "area") {
+            countriesFilter.sort((a, b) => a[filters.sortby] - b[filters.sortby])
+        }
         
+
+        filterWordRef.current = filterWord;
+
         
-                
         setCountriesFiltered(countriesFilter);
-    }, [filters, countries]);
+    }, [filters, countries, filterWord]);
 
     return(
         <div className="allCountriesContainer">
             <div className="headerAllCountries">
                 <span className="font2">Found {countriesFiltered.length} countries</span>            
-                <input className="font3" type="text" placeholder="Search by Name, Region, Subregion" />
+                <input className="font3" value={filterWord} type="text" placeholder="Search by Name, Region, Subregion" onChange={(e) => setFilterWord(e.target.value)} />
             </div>
             <div className="leftContainer">
                 <span>Sort by</span>    
