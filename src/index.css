@@ -1,0 +1,40 @@
+* {
+  margin: 0;
+  font-family: "Be Vietnam Pro", serif;
+  font-weight: 100;
+  font-style: normal;
+  color: #D2D5DA;
+
+}
+
+input, button, textarea {
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+span {
+  font-size: 12px;
+  font-weight: 400;
+  display: block;
+}
+
+.font1 {
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.font2 {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.font3 {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.font4 {
+  font-size: 12px;
+  font-weight: 700;
+}
