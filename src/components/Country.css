@@ -23,3 +23,49 @@
     left: 50%;
     transform: translate(-50%, -120%);
 }
+
+.countryContainer h1 {
+    text-align: center;
+    font-weight: 600;
+}
+
+.countryContainer span {
+    text-align: center;
+    font-size: 14px;
+}
+
+.containerInfoItem {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin-top: 20px;
+}
+
+.infoItem {
+    display: flex;
+    background-color: #282B30;
+    padding: 15px 20px;
+    justify-content: center;
+    border-radius: 10px;
+}
+
+.lineH {
+    width: 1px;
+    height: 20px;
+    background-color: #1B1D1F;
+    margin: 0px 10px;
+}
+
+@media (max-width: 1023px) {
+    .countryContainer {
+        width: 80%;
+    }
+}
+
+@media (max-width: 639px) {
+    .countryContainer {
+        width: 100%;
+    }
+}
+
+
