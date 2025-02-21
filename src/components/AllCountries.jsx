@@ -15,23 +15,50 @@ function RegionItem({country, sendStateName}) {
     )
 }
 
-function InfoCountry({flag, name, population, area, region}) {
+function InfoCountry({flag, name, population, area, region, chargeInfoCountry}) {
+    const [showSpan, setShowSpan] = useState(window.innerWidth >= 1024);
+    const countryRef = useRef(null);
+    useEffect(() => {
+    const handleResize = () => {
+      setShowSpan(window.innerWidth >= 1024);
+    };
+
+    window.addEventListener("resize", handleResize);
+    
+    // Limpiar el evento cuando el componente se desmonta
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
     return (
-        <div className="infoCountry">
+        <div className="infoCountry" onClick={() => chargeInfoCountry(countryRef.current.innerText )}
+>
             <div className="flag"
                  style={{backgroundImage: `url(${flag})`}}></div> 
-            <span>{name}</span>
+            <span ref={countryRef}>{name}</span>
             <span>{population}</span>
             <span>{area}</span>      
-            <span>{region}</span>
+            {showSpan && <span>{region}</span>}
         
         </div>
     )
 }
 
-export default function AllCountries() {
+export default function AllCountries({ countries, chargeInfoCountry }) {
+    const [showSpan, setShowSpan] = useState(window.innerWidth >= 1024);
+
+    useEffect(() => {
+    const handleResize = () => {
+      setShowSpan(window.innerWidth >= 1024);
+    };
+
+    window.addEventListener("resize", handleResize);
+    
+    // Limpiar el evento cuando el componente se desmonta
+    return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+
     const regions = ["Americas", "Antarctic", "Africa", "Asia", "Europe", "Oceania"];
-    const [countries, setCountries] = useState([]);
     const [filters, setFilters] = useState({
         sortby: "population",
         region: {
@@ -50,15 +77,7 @@ export default function AllCountries() {
     const [filterWord, setFilterWord] = useState("");
     const [countriesFiltered, setCountriesFiltered] = useState([]);
 
-    //Obtener datos de la api
-    useEffect(() => {
-        fetch("https://restcountries.com/v3.1/all?fields=name,flags,population,area,region,independent,unMember")
-          .then(Response => Response.json())
-          .then(data => {
-            setCountries(data);
-          })
-    }, []);
-
+    
     function updateFilters(data) { 
         if (data === "population" || data === "area" || data === "name") {
             setFilters((prev) => ({ ...prev, sortby: data }));
@@ -83,13 +102,10 @@ export default function AllCountries() {
 
     }
 
-    const filterWordRef = useRef();
 
     useEffect(() => {
 
-        let countriesFilter = countries;
-
-        filterWordRef.current = filterWord;  
+        var countriesFilter = countries;
         countriesFilter = countriesFilter.filter((country) => country.name.common.toLowerCase().includes(filterWord.toLowerCase()));
 
         
@@ -112,10 +128,6 @@ export default function AllCountries() {
             countriesFilter.sort((a, b) => a[filters.sortby] - b[filters.sortby])
         }
         
-
-        filterWordRef.current = filterWord;
-
-        
         setCountriesFiltered(countriesFilter);
     }, [filters, countries, filterWord]);
 
@@ -126,7 +138,7 @@ export default function AllCountries() {
                 <input className="font3" value={filterWord} type="text" placeholder="Search by Name, Region, Subregion" onChange={(e) => setFilterWord(e.target.value)} />
             </div>
             <div className="leftContainer">
-                <span>Sort by</span>    
+                <span className="sortBy">Sort by</span>    
                 <select id="optionsSelect"
                         onChange={(e) => {updateFilters(e.target.value)}}>
                     <option value="population" defaultValue>Population</option>
@@ -165,7 +177,7 @@ export default function AllCountries() {
                     <span>Name</span>
                     <span>Poputalation</span>
                     <span>Area (km²)</span>
-                    <span>Region</span>
+                    {showSpan && <span>Region</span>}
                 </div>
 
                 <div className="line"></div>
@@ -179,6 +191,7 @@ export default function AllCountries() {
                         population={item.population}
                         area={item.area}
                         region={item.region}
+                        chargeInfoCountry={chargeInfoCountry}
                         />
                     ))}
                 </div>
